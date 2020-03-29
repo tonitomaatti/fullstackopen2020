@@ -10,3 +10,20 @@ npm install json-server --save-dev
 
 
 poista ylimääräiset tiedostot (App.js, App.css, App.test.js, logo.svg, serviceWorker.js).
+
+
+
+Tiedoston index.js sisällöksi jää:
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+const notes = [
+  // ...
+]
+
+ReactDOM.render(
+  <App notes={notes} />,
+  document.getElementById('root')
+)
