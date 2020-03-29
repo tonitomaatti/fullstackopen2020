@@ -1,10 +1,12 @@
 npx create-react-app part1
 npm start
 
+
+----
 npm install
 
 npm install axios --save
 npm install json-server --save-dev
 
 
-Tiedostot App.js, App.css, App.test.js, logo.svg ja serviceWorker.js voi poistaa sillä niitä emme sovelluksessamme nyt tarvitse.
+poista ylimääräiset tiedostot (App.js, App.css, App.test.js, logo.svg, serviceWorker.js).
