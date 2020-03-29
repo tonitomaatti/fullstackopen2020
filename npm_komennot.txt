@@ -5,3 +5,6 @@ npm install
 
 npm install axios --save
 npm install json-server --save-dev
+
+
+Tiedostot App.js, App.css, App.test.js, logo.svg ja serviceWorker.js voi poistaa sillä niitä emme sovelluksessamme nyt tarvitse.
