@@ -1,0 +1,7 @@
+npx create-react-app part1
+npm start
+
+npm install
+
+npm install axios --save
+npm install json-server --save-dev
