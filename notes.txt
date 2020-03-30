@@ -30,3 +30,6 @@ ReactDOM.render(
   <App notes={notes} />,
   document.getElementById('root')
 )
+
+
+- usestate in one variable: https://reactjs.org/docs/hooks-state.html
