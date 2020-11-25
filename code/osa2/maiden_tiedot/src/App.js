@@ -1,25 +1,10 @@
-//TODO set note about key if not provided
-
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import Weather from './components/Weather'
 import {Country, Countries} from './components/Countries'
+import Filter from './components/Filter'
   
-
-
-const Filter = ({filter, setFilter}) => {
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value)
-  }
-  return (
-    <div>
-      find countries
-      <input value={filter} onChange={handleFilterChange}/>
-    </div>
-  )
-}
-
 
 const App = () => {
   const [ countries, setCountries ] = useState([])
