@@ -1,61 +1,21 @@
+//TODO set note about key if not provided
+
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const Language = ({language}) => {
-  return(
-    <li>{language}</li>
-  )
-}
+import Weather from './components/Weather'
+import {Country, Countries} from './components/Countries'
+  
 
-const Country = ({country}) => {
-  return (
-    <div>
-      <h1>{country.name}</h1>
-        <div>capital {country.capital}</div>
-        <div>population {country.population}</div>
-      <h2>languages</h2>
-        <ul>
-          {country.languages.map((language) =>
-            <Language key={language.name} language={language.name} />
-          )}
-        </ul>
-      <img src={country.flag} width="128" height="128" ></img>
-    </div>
-  )
-}
 
-const CountryName = ({name, setFilter}) => {
-  return (
-    <div>
-      {name}
-      <button onClick={() => setFilter(name)} >
-        show
-      </button>
-    </div>
-  )
-}
-
-const Countries = ({countries, setFilter}) => {
-
-  if (countries.length === 1) {
-    return (
-      <Country country={countries[0]} />
-    )
+const Filter = ({filter, setFilter}) => {
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value)
   }
-
-  if (countries.length > 10) {
-    return (
-      <div>
-        Too many matches, specify another filter
-      </div>
-    )
-  }
-
   return (
     <div>
-      {countries.map((country) =>
-        <CountryName key={country.name} name={country.name} setFilter={setFilter} />
-      )}
+      find countries
+      <input value={filter} onChange={handleFilterChange}/>
     </div>
   )
 }
@@ -64,6 +24,8 @@ const Countries = ({countries, setFilter}) => {
 const App = () => {
   const [ countries, setCountries ] = useState([])
   const [ filter, setFilter ] = useState('')
+  const [ weather, setWeather ] = useState(null)
+  
 
   useEffect(() => {
     axios
@@ -73,17 +35,42 @@ const App = () => {
       })
   }, [] )
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value)
-  }
-
   const filteredCountries = countries.filter(
     c => c.name.toLowerCase().includes(filter.toLowerCase()))
 
+  
+  useEffect(() => {
+    if (filteredCountries.length === 1){
+      const api_key = process.env.REACT_APP_API_KEY
+      if ( api_key === undefined ) {
+        setWeather('no_key')
+      } else {
+        const capital = filteredCountries[0].capital
+        const weather_url = `http://api.weatherstack.com/current?access_key=${api_key}&query=${capital}`
+      
+        axios
+          .get(weather_url)
+          .then(response => {
+            setWeather(response.data)
+          })
+      }
+    }
+  // eslint-disable-next-line
+  }, [filteredCountries.length] )
+  
+
+  if (filteredCountries.length === 1){
+    return (
+      <div>
+        <Filter filter={filter} setFilter={setFilter} />
+        <Country country={filteredCountries[0]} />
+        <Weather weather={weather} />
+      </div>
+    )
+  }
   return (
     <div>
-      find countries
-      <input value={filter} onChange={handleFilterChange}/>
+      <Filter filter={filter} setFilter={setFilter} />
       <Countries countries={filteredCountries} setFilter={setFilter} />
     </div>
   )

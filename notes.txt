@@ -33,3 +33,28 @@ ReactDOM.render(
 
 
 - usestate in one variable: https://reactjs.org/docs/hooks-state.html
+
+- set "REACT_APP_API_KEY=9b4612f657bd8866b0f96c0be2b76829" && npm start
+- 9b4612f657bd8866b0f96c0be2b76829
+
+- https://overreacted.io/a-complete-guide-to-useeffect/
+
+
+-Line 108:21:  Assignments to the 'weather' variable from inside React Hook useEffect will be lost after each render.
+ To preserve the value over time, store it in a useRef Hook and keep the mutable value in the '.current' property. 
+Otherwise, you can move this variable directly inside useEffect  react-hooks/exhaustive-deps
+
+
+
+set "REACT_APP_API_KEY=9b4612f657bd8866b0f96c0be2b76829" && npm start
+
+
+set "BROWSER=none"
+
+
+ width="128" height="128" 
+
+width="540" height="330"
+
+
+filteredCountries.length
