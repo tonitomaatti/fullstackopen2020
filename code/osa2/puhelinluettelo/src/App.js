@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+
+import personService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
@@ -37,24 +38,34 @@ const App = () => {
         number: newNumber
       }
 
-      axios
-        .post('http://localhost:3001/persons', person)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-          setNewName('')
-          setNewNumber('')
-        })
+      personService
+        .create(person)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+    }
+  }
+
+  const removePerson = (name, id) => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      personService
+        .remove(id)
+          .then(() => {
+            setPersons(persons.filter(p => p.id !== id))
+          })
     }
   }
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [] )
-    
+    personService
+      .getAll()
+        .then(initialPersons => {
+          setPersons(initialPersons)
+        })
+  }, [])
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -68,7 +79,10 @@ const App = () => {
           handleNumberChange={handleNumberChange}
         />
       <h3>Numbers</h3>
-        <Persons filteredPersons={filteredPersons} />
+        <Persons
+          filteredPersons={filteredPersons}
+          removePerson={removePerson}
+        />
     </div>
   )
 }
